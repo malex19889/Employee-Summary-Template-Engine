@@ -6,9 +6,8 @@ const path = require("path");
 const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./lib/htmlRenderer");
-
+// inquirer quetion arrays
 const employeeType = [
   {
     type: "list",
@@ -60,7 +59,9 @@ const internQuestions = [
     message: "Please enter school info",
   },
 ];
+// empty array to push new employee objects 
 var employeeArr = [];
+// function to start app
 async function init() {
   try {
     console.log("Welcome to your team creation engine");
@@ -109,7 +110,7 @@ function addManager() {
   
 }
 function addEngineer() {
-  let info = prompts(engineerQuestions)
+  prompts(engineerQuestions)
   .then(function(info){
     let engineer = new Engineer(info.name, info.id, info.email, info.github);
     employeeArr.push(engineer);
@@ -118,7 +119,7 @@ function addEngineer() {
   
 }
 function addIntern() {
-  let info = prompts(internQuestions)
+  prompts(internQuestions)
   .then(function(info){
     let intern = new Intern(info.name, info.id, info.email, info.school);
     employeeArr.push(intern);
@@ -135,9 +136,10 @@ function writeToFile() {
   fs.writeFileSync(outputPath,render(employeeArr))
   
 }
+// call enquirer
 function prompts(questions) {
   return inquirer.prompt(questions);
 }
-
+// call init to start app
 init();
 
